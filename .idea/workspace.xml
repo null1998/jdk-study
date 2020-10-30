@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2fdae8ff-406f-4a7b-ae3c-bae7461c7759" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+    <option name="PARALLEL_COMPILATION" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="C:\tools\maven\repository" />
+        <option name="mavenHome" value="C:/tools/maven/apache-maven-3.5.4" />
+        <option name="userSettingsFile" value="C:\tools\maven\apache-maven-3.5.4\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1jaguJZL7eMwEWmEPT9tiL9xdyv" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/my-jdk-src" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.hyd.studyjdk.Main" />
+      <module name="study-jdk" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.hyd.studyjdk.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2fdae8ff-406f-4a7b-ae3c-bae7461c7759" name="Default Changelist" comment="" />
+      <created>1604047837417</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1604047837417</updated>
+      <workItem from="1604047841732" duration="183000" />
+      <workItem from="1604048066581" duration="10598000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="421" y="118" key="FileChooserDialogImpl" timestamp="1604048149816">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="421" y="118" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1604048149816" />
+    <state width="1246" height="229" key="GridCell.Tab.0.bottom" timestamp="1604048236172">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1246" height="229" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1604048236172" />
+    <state width="1246" height="229" key="GridCell.Tab.0.center" timestamp="1604048236172">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1246" height="229" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1604048236172" />
+    <state width="1246" height="229" key="GridCell.Tab.0.left" timestamp="1604048236171">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1246" height="229" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1604048236171" />
+    <state width="1246" height="229" key="GridCell.Tab.0.right" timestamp="1604048236172">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1246" height="229" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1604048236172" />
+    <state width="1246" height="229" key="GridCell.Tab.1.bottom" timestamp="1604048236631">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1246" height="229" key="GridCell.Tab.1.bottom/0.0.1280.720@0.0.1280.720" timestamp="1604048236631" />
+    <state width="1246" height="229" key="GridCell.Tab.1.center" timestamp="1604048236631">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1246" height="229" key="GridCell.Tab.1.center/0.0.1280.720@0.0.1280.720" timestamp="1604048236631" />
+    <state width="1246" height="229" key="GridCell.Tab.1.left" timestamp="1604048236630">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1246" height="229" key="GridCell.Tab.1.left/0.0.1280.720@0.0.1280.720" timestamp="1604048236630" />
+    <state width="1246" height="229" key="GridCell.Tab.1.right" timestamp="1604048236631">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1246" height="229" key="GridCell.Tab.1.right/0.0.1280.720@0.0.1280.720" timestamp="1604048236631" />
+    <state x="121" y="0" key="SettingsEditor" timestamp="1604048151659">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="121" y="0" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1604048151659" />
+    <state width="568" height="308" key="documentation.popup.size" timestamp="1604050491524">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="568" height="308" key="documentation.popup.size/0.0.1280.720@0.0.1280.720" timestamp="1604050491524" />
+    <state width="566" height="306" key="javadoc.popup.new" timestamp="1604050428441">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="566" height="306" key="javadoc.popup.new/0.0.1280.720@0.0.1280.720" timestamp="1604050428441" />
+    <state x="303" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1604055890716">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="303" y="41" width="672" height="678" key="search.everywhere.popup/0.0.1280.720@0.0.1280.720" timestamp="1604055890716" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/hyd/studyjdk/Main.java</url>
+          <line>11</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
