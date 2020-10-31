@@ -83,8 +83,7 @@ import java.util.function.Consumer;
 public class LinkedList<E>
     extends AbstractSequentialList<E>
     implements List<E>, Deque<E>, Cloneable, java.io.Serializable
-{
-    transient int size = 0;
+{ transient int size = 0;
 
     /**
      * Pointer to first node.
@@ -450,6 +449,7 @@ public class LinkedList<E>
         // - helps a generational GC if the discarded nodes inhabit
         //   more than one generation
         // - is sure to free memory even if there is a reachable Iterator
+        //帮助gc
         for (Node<E> x = first; x != null; ) {
             Node<E> next = x.next;
             x.item = null;
@@ -565,7 +565,7 @@ public class LinkedList<E>
      */
     Node<E> node(int index) {
         // assert isElementIndex(index);
-
+        // 选择从尾还是从头遍历
         if (index < (size >> 1)) {
             Node<E> x = first;
             for (int i = 0; i < index; i++)
@@ -867,7 +867,7 @@ public class LinkedList<E>
         checkPositionIndex(index);
         return new ListItr(index);
     }
-
+    //以后看
     private class ListItr implements ListIterator<E> {
         private Node<E> lastReturned;
         private Node<E> next;
@@ -888,7 +888,7 @@ public class LinkedList<E>
             checkForComodification();
             if (!hasNext())
                 throw new NoSuchElementException();
-
+            //next在lastReturned下一节点
             lastReturned = next;
             next = next.next;
             nextIndex++;
@@ -903,7 +903,7 @@ public class LinkedList<E>
             checkForComodification();
             if (!hasPrevious())
                 throw new NoSuchElementException();
-
+            //next和lastReturned指向相同节点
             lastReturned = next = (next == null) ? last : next.prev;
             nextIndex--;
             return lastReturned.item;
@@ -925,9 +925,12 @@ public class LinkedList<E>
             Node<E> lastNext = lastReturned.next;
             unlink(lastReturned);
             if (next == lastReturned)
+                //previous之后
                 next = lastNext;
             else
+                //next之后
                 nextIndex--;
+            //删除后都要置为null
             lastReturned = null;
             expectedModCount++;
         }

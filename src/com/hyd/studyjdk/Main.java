@@ -1,6 +1,8 @@
 package com.hyd.studyjdk;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 /**
  * @author yanduohuang
@@ -24,10 +26,7 @@ public class Main {
         }
     }
     public static void main(String[] args) {
-        A a = new A(3);
-        ArrayList<A> as = new ArrayList<>();
-        as.add(a);
-        Object[] array = as.toArray();
-        System.out.println(((A)array[0]).getId());
+
+
     }
 }
