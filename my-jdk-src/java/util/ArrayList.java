@@ -40,7 +40,8 @@ import sun.misc.SharedSecrets;
  * 利用大小可变数组的方式实现了List接口。
  * 实现了所有List操作，并允许所有元素，包括null。
  * 除了实现List接口，此类提供了操作存储了List元素的内部数组的大小的方法。
- * 这个类是大致相当于Vector，除了它是不同步的。
+ * 这个类大致相当于Vector，除了它是不同步的。
+ *
  * <p>The <tt>size</tt>, <tt>isEmpty</tt>, <tt>get</tt>, <tt>set</tt>,
  * <tt>iterator</tt>, and <tt>listIterator</tt> operations run in constant
  * time.  The <tt>add</tt> operation runs in <i>amortized constant time</i>,
@@ -51,6 +52,7 @@ import sun.misc.SharedSecrets;
  * 平均来看，add操作运行时，添加n个元素需要O(n)的时间。
  * 其他所有操作都以线性时间运行（粗略地讲）。
  * 相比LinkedList实现，此类的常数因子较低。
+ *
  * <p>Each <tt>ArrayList</tt> instance has a <i>capacity</i>.  The capacity is
  * the size of the array used to store the elements in the list.  It is always
  * at least as large as the list size.  As elements are added to an ArrayList,
@@ -60,11 +62,13 @@ import sun.misc.SharedSecrets;
  * 每个ArrayList实例都有一个capacity。capacity是存储List元素的数组的大小。
  * 它始终大等于size。 当元素被添加到一个ArrayList，capacity自动增长。
  * 增长策略不外乎如此：添加一个元素具有恒定的摊余成本的时间。
+ *
  * <p>An application can increase the capacity of an <tt>ArrayList</tt> instance
  * before adding a large number of elements using the <tt>ensureCapacity</tt>
  * operation.  This may reduce the amount of incremental reallocation.
  * 应用程序在使用ensureCapacity操作大批量添加元素前，可以增大ArrayList实例的capacity。
  * 这可以减少增量再分配的次数。
+ *
  * <p><strong>Note that this implementation is not synchronized.</strong>
  * If multiple threads access an <tt>ArrayList</tt> instance concurrently,
  * and at least one of the threads modifies the list structurally, it
@@ -76,8 +80,9 @@ import sun.misc.SharedSecrets;
  * 注意，此实现不是同步的。 如果多个线程同时访问一个ArrayList实例，
  * 并且至少一个线程对List进行结构上的修改，它必须保持外部同步。
  *（结构上的修改是指添加或删除一个或多个元件，或明确地调整数组大小的操作;
- * 仅设置元素的值不是结构修改。）这通常通过以下方式完成：在自然封装List的某个对象上进行同步。
- * （ps：没太看明白这句话的意思）
+ * 仅设置元素的值不是结构修改。）
+ * 这通常通过以下方式完成：在自然封装List的某个对象上进行同步。（ps：没太看明白这句话的意思）
+ *
  * If no such object exists, the list should be "wrapped" using the
  * {@link Collections#synchronizedList Collections.synchronizedList}
  * method.  This is best done at creation time, to prevent accidental
@@ -85,6 +90,7 @@ import sun.misc.SharedSecrets;
  *   List list = Collections.synchronizedList(new ArrayList(...));</pre>
  * 如果该对象不存在，List应被包装在Collections.synchronizedList方法中。
  * 这最好在创建时完成，以防止对List进行意外的不同步访问：
+ *
  * <p><a name="fail-fast">
  * The iterators returned by this class's {@link #iterator() iterator} and
  * {@link #listIterator(int) listIterator} methods are <em>fail-fast</em>:</a>
@@ -101,6 +107,7 @@ import sun.misc.SharedSecrets;
  * 进行结构上的修改，迭代器都将抛出ConcurrentModificationException 。
  * 因此，在面对并发修改时，迭代器快速干净地失败，而不是在将来不确定的时间中，任意地冒险，
  * 产生不确定性的行为。
+ *
  * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
  * as it is, generally speaking, impossible to make any hard guarantees in the
  * presence of unsynchronized concurrent modification.  Fail-fast iterators
@@ -114,6 +121,7 @@ import sun.misc.SharedSecrets;
  * 尽最大努力抛出ConcurrentModificationException。
  * 因此，编写依赖于此的程序是错误的
  * 正确性的例外：迭代器的快速失败行为仅应用于检测错误。
+ *
  * <p>This class is a member of the
  * <a href="{@docRoot}/../technotes/guides/collections/index.html">
  * Java Collections Framework</a>.
@@ -172,6 +180,7 @@ public class ArrayList<E> extends AbstractList<E>
      *         is negative
      */
     public ArrayList(int initialCapacity) {
+        //创建了相应大小的elementData，但没有设置capacity
         if (initialCapacity > 0) {
             this.elementData = new Object[initialCapacity];
         } else if (initialCapacity == 0) {
@@ -186,6 +195,7 @@ public class ArrayList<E> extends AbstractList<E>
      * Constructs an empty list with an initial capacity of ten.
      */
     public ArrayList() {
+        //创建了大小为空的elementData，并设置capacity为10
         this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
     }
 
@@ -200,6 +210,7 @@ public class ArrayList<E> extends AbstractList<E>
     public ArrayList(Collection<? extends E> c) {
         Object[] a = c.toArray();
         if ((size = a.length) != 0) {
+            //为什么这里要有这个判断，直接elementData = a;不行吗
             if (c.getClass() == ArrayList.class) {
                 elementData = a;
             } else {
@@ -229,10 +240,12 @@ public class ArrayList<E> extends AbstractList<E>
      * Increases the capacity of this <tt>ArrayList</tt> instance, if
      * necessary, to ensure that it can hold at least the number of elements
      * specified by the minimum capacity argument.
-     *
+     * 使用这个方法可以确保容量足够
      * @param   minCapacity   the desired minimum capacity
      */
+
     public void ensureCapacity(int minCapacity) {
+        //要么0，要么10
         int minExpand = (elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA)
             // any size if not default element table
             ? 0
@@ -337,6 +350,7 @@ public class ArrayList<E> extends AbstractList<E>
      * or -1 if there is no such index.
      */
     public int indexOf(Object o) {
+        //分null和非null两种情况，然后从头到尾遍历。
         if (o == null) {
             for (int i = 0; i < size; i++)
                 if (elementData[i]==null)
@@ -376,6 +390,7 @@ public class ArrayList<E> extends AbstractList<E>
      * @return a clone of this <tt>ArrayList</tt> instance
      */
     public Object clone() {
+        //浅复制，复制前后的两个ArrayList共享相同的元素，对任意一边元素的修改都会在另一边体现出来。
         try {
             ArrayList<?> v = (ArrayList<?>) super.clone();
             v.elementData = Arrays.copyOf(elementData, size);
@@ -400,7 +415,11 @@ public class ArrayList<E> extends AbstractList<E>
      *
      * @return an array containing all of the elements in this list in
      *         proper sequence
+     * 文档中说的安全指的是返回的数组和ArrayList里的数组的引用不同
+     * 但实际上两者还是共享着元素，对任意一边元素的修改都会在另一边体现出来。
+     * 所以说这算是安全的吗
      */
+
     public Object[] toArray() {
         return Arrays.copyOf(elementData, size);
     }
@@ -431,10 +450,12 @@ public class ArrayList<E> extends AbstractList<E>
      */
     @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a) {
+        //a长度不够则返回新数组，长度足够就把元素放入a并返回
         if (a.length < size)
             // Make a new array of a's runtime type, but my contents:
             return (T[]) Arrays.copyOf(elementData, size, a.getClass());
         System.arraycopy(elementData, 0, a, 0, size);
+        //仅设置一位为null
         if (a.length > size)
             a[size] = null;
         return a;
@@ -522,7 +543,7 @@ public class ArrayList<E> extends AbstractList<E>
 
         modCount++;
         E oldValue = elementData(index);
-
+        //因为删除掉了一个所以要-1
         int numMoved = size - index - 1;
         if (numMoved > 0)
             System.arraycopy(elementData, index+1, elementData, index,
@@ -565,6 +586,7 @@ public class ArrayList<E> extends AbstractList<E>
     /*
      * Private remove method that skips bounds checking and does not
      * return the value removed.
+     * 不检查超界也不返回删除值的remove
      */
     private void fastRemove(int index) {
         modCount++;
@@ -658,6 +680,7 @@ public class ArrayList<E> extends AbstractList<E>
      *          toIndex < fromIndex})
      */
     protected void removeRange(int fromIndex, int toIndex) {
+        //这里不进行范围检查是因为不是public方法吗
         modCount++;
         int numMoved = size - toIndex;
         System.arraycopy(elementData, toIndex, elementData, fromIndex,
@@ -676,6 +699,7 @@ public class ArrayList<E> extends AbstractList<E>
      * runtime exception.  This method does *not* check if the index is
      * negative: It is always used immediately prior to an array access,
      * which throws an ArrayIndexOutOfBoundsException if index is negative.
+     * 这个不检查负数是因为马上要访问数组了，数组能抛出相应的异常。
      */
     private void rangeCheck(int index) {
         if (index >= size)
@@ -684,6 +708,8 @@ public class ArrayList<E> extends AbstractList<E>
 
     /**
      * A version of rangeCheck used by add and addAll.
+     * 这个和rangeCheck不同，需要检查负数，是因为接下来的index还有其它的用处，
+     * 如果在那些地方使用了负数，无法很好地抛出异常进行处理
      */
     private void rangeCheckForAdd(int index) {
         if (index > size || index < 0)
@@ -739,19 +765,21 @@ public class ArrayList<E> extends AbstractList<E>
         Objects.requireNonNull(c);
         return batchRemove(c, true);
     }
-
+    //removeAll,retainAll都调用这个方法，
     private boolean batchRemove(Collection<?> c, boolean complement) {
         final Object[] elementData = this.elementData;
         int r = 0, w = 0;
         boolean modified = false;
         try {
             for (; r < size; r++)
+                //complement为true：retainAll，反之是removeAll
                 if (c.contains(elementData[r]) == complement)
                     elementData[w++] = elementData[r];
         } finally {
             // Preserve behavioral compatibility with AbstractCollection,
             // even if c.contains() throws.
             if (r != size) {
+                //抛出异常后把未遍历的元素复制到w之后，为啥这样做
                 System.arraycopy(elementData, r,
                                  elementData, w,
                                  size - r);
@@ -761,6 +789,7 @@ public class ArrayList<E> extends AbstractList<E>
                 // clear to let GC do its work
                 for (int i = w; i < size; i++)
                     elementData[i] = null;
+                //增加或减少了几个元素，modCount就加几
                 modCount += size - w;
                 size = w;
                 modified = true;
@@ -781,6 +810,7 @@ public class ArrayList<E> extends AbstractList<E>
         throws java.io.IOException{
         // Write out element count, and any hidden stuff
         int expectedModCount = modCount;
+        //把相应字段写入流
         s.defaultWriteObject();
 
         // Write out size as capacity for behavioural compatibility with clone()
@@ -790,7 +820,7 @@ public class ArrayList<E> extends AbstractList<E>
         for (int i=0; i<size; i++) {
             s.writeObject(elementData[i]);
         }
-
+        //写入过程中发生结构性修改则抛出异常
         if (modCount != expectedModCount) {
             throw new ConcurrentModificationException();
         }
@@ -811,6 +841,7 @@ public class ArrayList<E> extends AbstractList<E>
         s.readInt(); // ignored
 
         if (size > 0) {
+            //这里为什么这样写
             // be like clone(), allocate array based upon size not capacity
             int capacity = calculateCapacity(elementData, size);
             SharedSecrets.getJavaOISAccess().checkArray(s, Object[].class, capacity);
@@ -1299,6 +1330,7 @@ public class ArrayList<E> extends AbstractList<E>
      * @return a {@code Spliterator} over the elements in this list
      * @since 1.8
      */
+    //这部分以后看
     @Override
     public Spliterator<E> spliterator() {
         return new ArrayListSpliterator<>(this, 0, -1, 0);
@@ -1421,13 +1453,14 @@ public class ArrayList<E> extends AbstractList<E>
             return Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED;
         }
     }
-
+    //分两阶段
     @Override
     public boolean removeIf(Predicate<? super E> filter) {
         Objects.requireNonNull(filter);
         // figure out which elements are to be removed
         // any exception thrown from the filter predicate at this stage
         // will leave the collection unmodified
+        //先把通过筛选的元素的坐标存到set中
         int removeCount = 0;
         final BitSet removeSet = new BitSet(size);
         final int expectedModCount = modCount;
@@ -1443,7 +1476,7 @@ public class ArrayList<E> extends AbstractList<E>
         if (modCount != expectedModCount) {
             throw new ConcurrentModificationException();
         }
-
+        // 删除剩余元素
         // shift surviving elements left over the spaces left by removed elements
         final boolean anyToRemove = removeCount > 0;
         if (anyToRemove) {

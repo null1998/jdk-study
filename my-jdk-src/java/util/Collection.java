@@ -41,7 +41,7 @@ import java.util.stream.StreamSupport;
  * 集合层次结构中的根接口。集合表示一组对象，称这些对象为元素。
  * 一些集合允许重复的元素，而一些则不允许。一些有序，而一些无序。
  * JDK不提供任何此接口的直接实现：JDK提供的是特定子接口，例如Set和List的实现。
- * 这个接口通常在需要最大的通用性时，用于传递集合并在其中操作它们
+ * 这个接口通常用于传递集合，并在需要最大的通用性的情况下对其进行操作。
  *
  * <p><i>Bags</i> or <i>multisets</i> (unordered collections that may contain
  * duplicate elements) should implement this interface directly.
@@ -60,10 +60,9 @@ import java.util.stream.StreamSupport;
  * implementations in the Java platform libraries comply.
  * 所有通用的Collection实现类（包括通过Collection子接口间接实现的）
  * 应提供两个标准构造函数：1、void（无参数）构造函数，它创建一个空集合，
- * 2、具有Collection类型的单个参数的构造函数，其中创建一个新集合，其元素与其参数相同。在
- * 效果上，后一个构造函数允许用户复制任何集合，产生一个所需实现类型的等效集合。
- * 此约定无法强制执行（因为接口不能包含构造函数），但所有Java平台库中的通用的Collection实现
- * 都符合此约定。
+ * 2、具有Collection类型的单个参数的构造函数，它创建一个与其参数相同的元素的新集合。
+ * 实际上，后一个构造函数允许用户复制任何集合，生成所需实现类型的等效集合。
+ * 此约定无法强制执行（因为接口不能包含构造函数），但是所有Java平台库中的通用Collection实现
  *
  * <p>The "destructive" methods contained in this interface, that is, the
  * methods that modify the collection on which they operate, are specified to
@@ -100,9 +99,9 @@ import java.util.stream.StreamSupport;
  * 添加不合格元素会引发未受检异常，通常是NullPointerException或ClassCastException。
  * 尝试查询不合格元素的存在可能会引发异常，或可能只是返回false；
  * 一些实现将展示前者行为，有些会表现出后者。更一般而言，
- * 尝试对不符合条件的元素进行运算，其完成不会导致在集合中插入不合格元素，
- * 根据实现的选择，可能会异常或可能成功。
- * 此类异常在此接口规范中标记为“可选”。（ps：没太看懂这两句话）
+ * 更一般来说，尝试对不符合条件的元素进行操作，其完成不会导致将不合格元素插入到集合中可能会导致异常，
+ * 或者可能会成功执行该选项。
+ * 此异常在此接口的规范中标记为“可选”。
  *
  * <p>It is up to each collection to determine its own synchronization
  * policy.  In the absence of a stronger guarantee by the
@@ -112,8 +111,8 @@ import java.util.stream.StreamSupport;
  * a method that might perform invocations, and using an existing
  * iterator to examine the collection.
  * 由每个集合决定自己的同步政策。如果没有更强有力的保证
- * 实现，在另一个线程中对该集合的任何方法的操作可能会导致未知行为;
- * 这些操作包括直接调用，将集合传递给可能执行调用并使用现有方法的方法
+ * 实现，未定义的行为可能是由于对由另一个线程进行突变的集合的任何方法的调用而导致的 ;
+ * 这些操作包括直接调用，将集合传递给可能执行调用的方法
  * 以及使用现有的迭代器检查集合。
  *
  * <p>Many methods in Collections Framework interfaces are defined in
@@ -132,12 +131,14 @@ import java.util.stream.StreamSupport;
  * the various Collections Framework interfaces are free to take advantage of
  * the specified behavior of underlying {@link Object} methods wherever the
  * implementor deems it appropriate.
- * Collections Framework接口中的许多方法有类似Object equals(OBject)方法的条款。（ps：不知道理解对没有）
- * 例如，contains（Object o）的规范说：“当且仅当此集合时，至少包含一个元素时返回true，就像
- * (o == null?e == null:o.equals(e))。”此规范不应被解释为，暗示使用非空参数o调用Collection.contains
- * 会导致o.equals(e)为了任何元素e而被调用。（ps：这前面讲了什么）实施是免费实施的优化，避免了equals的调用。
- * 例如，首先比较两个元素的哈希码。规范可确保两个具有不相等哈希码的对象不能相等。）通常，
- * 各种Collections Framework接口可以自由利用底层Object方法的指定行为，无论实现者认为是否适当。
+ * 在集合框架接口的许多方法由equals方法定义。
+ * 例如，对于在本说明书contains(Object o)方法表示：“返回true当且仅当这个集合包含至少一个元素e
+ * 使得(o==null ? e==null : o.equals(e))”。 该规范不应该被解释为意味着具有非空参数o调用
+ * Collection.contains会导致o.equals(e)被调用任何元素e。
+ * 实现可以自由地实现优化，从而避免equals调用，例如，首先比较两个元素的哈希码。
+ * （ Object.hashCode()规范保证具有不等的哈希码的两个对象不能相等。）更一般地，
+ * 各种Collections Framework接口的实现可以随意使用底层Object方法的指定行为，
+ * 无论执行者认为是否合适。
  *
  * <p>Some collection operations which perform recursive traversal of the
  * collection may fail with an exception for self-referential instances where
@@ -145,10 +146,10 @@ import java.util.stream.StreamSupport;
  * {@code clone()}, {@code equals()}, {@code hashCode()} and {@code toString()}
  * methods. Implementations may optionally handle the self-referential scenario,
  * however most current implementations do not do so.
- * 一些对对象执行递归遍历操作的集合可能会因为自身引用被直接包含或间接包含而失败，这包括
- * {@code clone()}, {@code equals()}, {@code hashCode()} and {@code toString()}
- *  实现可以选择地处理自身引用场景，但是，大多数当前的实现都没有这样做。
- *  （ps：没看懂）
+ * 执行递归遍历集合的一些集合操作可能会失败，而自引用实例的异常会导致集合直接或间接包含其自身。
+ * 这包括clone() ， equals() ， hashCode()和toString()方法。 实现可以可选地处理自引用场景，
+ * 然而大多数当前实现不这样做。
+ *
  * <p>This interface is a member of the
  * <a href="{@docRoot}/../technotes/guides/collections/index.html">
  * Java Collections Framework</a>.
@@ -158,11 +159,13 @@ import java.util.stream.StreamSupport;
  * synchronization protocol.  If a {@code Collection} implementation has a
  * specific synchronization protocol, then it must override default
  * implementations to apply that protocol.
- * 默认方法实现（继承或以其他方式）不应用任何
- * 同步协议。如果{@code Collection}实现中有一个
- * 特定的同步协议，那么它必须覆盖默认值来应用该协议的实现。
- * @param <E> the type of elements in this collection
+ * 默认方法实现（继承或其他）不应用任何同步协议。
+ * 如果Collection实现具有特定的同步协议，
+ * 那么它必须覆盖默认实现以应用该协议。
  * （ps：Java8中增加的默认方法有关）
+ *
+ * @param <E> the type of elements in this collection
+ *
  *
  * @author  Josh Bloch
  * @author  Neal Gafter
@@ -189,7 +192,7 @@ public interface Collection<E> extends Iterable<E> {
      * Returns the number of elements in this collection.  If this collection
      * contains more than <tt>Integer.MAX_VALUE</tt> elements, returns
      * <tt>Integer.MAX_VALUE</tt>.
-     *
+     * 返回集合元素个数，如果元素个数超过Integer.MAX_VALUE，返回Integer.MAX_VALUE
      * @return the number of elements in this collection
      */
     int size();
@@ -206,15 +209,20 @@ public interface Collection<E> extends Iterable<E> {
      * More formally, returns <tt>true</tt> if and only if this collection
      * contains at least one element <tt>e</tt> such that
      * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>.
+     * 如果此集合包含指定的元素，则返回true 。
+     * 更正式地，返回true如果且仅当该集合至少包含一个元素e使得(o==null ? e==null : o.equals(e)) 。
+     * ps：注意集合应该至少包含一个元素，比如一个空的ArrayList，contains(null)返回false
      *
      * @param o element whose presence in this collection is to be tested
      * @return <tt>true</tt> if this collection contains the specified
      *         element
      * @throws ClassCastException if the type of the specified element
      *         is incompatible with this collection
+     *         元素与集合不匹配时抛出
      *         (<a href="#optional-restrictions">optional</a>)
      * @throws NullPointerException if the specified element is null and this
      *         collection does not permit null elements
+     *         元素为null且集合不允许null元素时抛出
      *         (<a href="#optional-restrictions">optional</a>)
      */
     boolean contains(Object o);
@@ -224,7 +232,7 @@ public interface Collection<E> extends Iterable<E> {
      * guarantees concerning the order in which the elements are returned
      * (unless this collection is an instance of some class that provides a
      * guarantee).
-     *
+     * 返回迭代器，不保证顺序，除非集合有特定实现保证顺序
      * @return an <tt>Iterator</tt> over the elements in this collection
      */
     Iterator<E> iterator();
@@ -234,11 +242,14 @@ public interface Collection<E> extends Iterable<E> {
      * If this collection makes any guarantees as to what order its elements
      * are returned by its iterator, this method must return the elements in
      * the same order.
+     * 数组形式返回所有元素，如果集合保证了元素按迭代器顺序返回，该方法必须和迭代器一个顺序
      *
      * <p>The returned array will be "safe" in that no references to it are
      * maintained by this collection.  (In other words, this method must
      * allocate a new array even if this collection is backed by an array).
      * The caller is thus free to modify the returned array.
+     * 返回数组是安全的，没有被集合维护的引用。
+     * 也就是要创建一个新数组，调用者可以自由地修改返回的数组
      *
      * <p>This method acts as bridge between array-based and collection-based
      * APIs.
@@ -253,6 +264,10 @@ public interface Collection<E> extends Iterable<E> {
      * If the collection fits in the specified array, it is returned therein.
      * Otherwise, a new array is allocated with the runtime type of the
      * specified array and the size of this collection.
+     * 传入的数组的元素类型要和集合元素兼容（ps：否则会报错）
+     * 如果传入数组的大小合适，那么传入数组中就会包含的集合元素
+     * 如果不合适，就要返回一个新的数组，把集合元素放在里面。
+     * （ps：如果传入数组大小合适，并且也返回一个新数组，那么两个数组都会有集合元素）
      *
      * <p>If this collection fits in the specified array with room to spare
      * (i.e., the array has more elements than this collection), the element
@@ -260,15 +275,19 @@ public interface Collection<E> extends Iterable<E> {
      * <tt>null</tt>.  (This is useful in determining the length of this
      * collection <i>only</i> if the caller knows that this collection does
      * not contain any <tt>null</tt> elements.)
+     * 如果传入数组大小合适，数组剩余位置被置为null，这在调用者知道集合中不包含null元素时很有用
      *
      * <p>If this collection makes any guarantees as to what order its elements
      * are returned by its iterator, this method must return the elements in
      * the same order.
+     * 如果集合保证了元素按迭代器顺序返回，该方法必须和迭代器一个顺序
      *
      * <p>Like the {@link #toArray()} method, this method acts as bridge between
      * array-based and collection-based APIs.  Further, this method allows
      * precise control over the runtime type of the output array, and may,
      * under certain circumstances, be used to save allocation costs.
+     * 和toArray()一样起到桥梁作用，而且，此方法精确控制了输出数组的运行时类型，
+     * 并且，在某些情况下，能被用来节省分配消耗
      *
      * <p>Suppose <tt>x</tt> is a collection known to contain only strings.
      * The following code can be used to dump the collection into a newly
@@ -279,6 +298,7 @@ public interface Collection<E> extends Iterable<E> {
      *
      * Note that <tt>toArray(new Object[0])</tt> is identical in function to
      * <tt>toArray()</tt>.
+     * toArray(new Object[0])和toArray()在功能上完全相同
      *
      * @param <T> the runtime type of the array to contain the collection
      * @param a the array into which the elements of this collection are to be
@@ -288,17 +308,22 @@ public interface Collection<E> extends Iterable<E> {
      * @throws ArrayStoreException if the runtime type of the specified array
      *         is not a supertype of the runtime type of every element in
      *         this collection
+     *         传入数组元素运行时类型不是集合元素运行时类型的超类时抛出
+     *
      * @throws NullPointerException if the specified array is null
+     *         传入数组为null时抛出
      */
     <T> T[] toArray(T[] a);
 
-    // Modification Operations
+    // Modification Operations 修改操作
 
     /**
      * Ensures that this collection contains the specified element (optional
      * operation).  Returns <tt>true</tt> if this collection changed as a
      * result of the call.  (Returns <tt>false</tt> if this collection does
      * not permit duplicates and already contains the specified element.)<p>
+     * 确保此集合包含指定元素（可选操作）
+     * 集合调用后发生变化返回true（当集合不允许重复且已经含有指定元素时返回false）
      *
      * Collections that support this operation may place limitations on what
      * elements may be added to this collection.  In particular, some
@@ -306,26 +331,36 @@ public interface Collection<E> extends Iterable<E> {
      * impose restrictions on the type of elements that may be added.
      * Collection classes should clearly specify in their documentation any
      * restrictions on what elements may be added.<p>
+     * 支持此操作的集合或许会对加入元素有某些限制
+     * 特别是一些集合拒绝null,，一些集合对元素类型有限制。
+     * 集合必须清晰地在文档中指明对加入元素的限制
      *
      * If a collection refuses to add a particular element for any reason
      * other than that it already contains the element, it <i>must</i> throw
      * an exception (rather than returning <tt>false</tt>).  This preserves
      * the invariant that a collection always contains the specified element
      * after this call returns.
+     * 如果集合拒绝或者已经包含某个元素，必须抛出异常而不是返回false，保证了在调用返回后
+     * 集合总是包含特点元素的不变性
      *
      * @param e element whose presence in this collection is to be ensured
      * @return <tt>true</tt> if this collection changed as a result of the
      *         call
      * @throws UnsupportedOperationException if the <tt>add</tt> operation
      *         is not supported by this collection
+     *         集合不支持add时抛出
      * @throws ClassCastException if the class of the specified element
      *         prevents it from being added to this collection
+     *         加入元素类型不符时抛出
      * @throws NullPointerException if the specified element is null and this
      *         collection does not permit null elements
+     *         加入元素为null且集合不允许null时抛出
      * @throws IllegalArgumentException if some property of the element
      *         prevents it from being added to this collection
+     *         加入元素的某些属性不符时抛出
      * @throws IllegalStateException if the element cannot be added at this
      *         time due to insertion restrictions
+     *         由于插入限制而无法加入时抛出
      */
     boolean add(E e);
 
@@ -337,37 +372,44 @@ public interface Collection<E> extends Iterable<E> {
      * this collection contains one or more such elements.  Returns
      * <tt>true</tt> if this collection contained the specified element (or
      * equivalently, if this collection changed as a result of the call).
+     * 如果指定元素存在一个或多个，从集合中移除一个
+     * 如果集合包含指定元素则返回true（等价来说就是集合在调用后发生了变化）
      *
      * @param o element to be removed from this collection, if present
      * @return <tt>true</tt> if an element was removed as a result of this call
      * @throws ClassCastException if the type of the specified element
      *         is incompatible with this collection
+     *         移除元素不相符时抛出
      *         (<a href="#optional-restrictions">optional</a>)
      * @throws NullPointerException if the specified element is null and this
      *         collection does not permit null elements
+     *         移除元素为null且集合不允许null时抛出
      *         (<a href="#optional-restrictions">optional</a>)
      * @throws UnsupportedOperationException if the <tt>remove</tt> operation
      *         is not supported by this collection
+     *         集合不支持remove时抛出
      */
     boolean remove(Object o);
 
 
-    // Bulk Operations
+    // Bulk Operations 批量操作
 
     /**
      * Returns <tt>true</tt> if this collection contains all of the elements
      * in the specified collection.
-     *
+     * 集合包含传入集合的全部元素时返回true
      * @param  c collection to be checked for containment in this collection
      * @return <tt>true</tt> if this collection contains all of the elements
      *         in the specified collection
      * @throws ClassCastException if the types of one or more elements
      *         in the specified collection are incompatible with this
      *         collection
+     *         指定集合中含有和此集合不相符的元素时抛出
      *         (<a href="#optional-restrictions">optional</a>)
      * @throws NullPointerException if the specified collection contains one
      *         or more null elements and this collection does not permit null
      *         elements
+     *         指定集合中含有null元素且集合不允许null时抛出
      *         (<a href="#optional-restrictions">optional</a>),
      *         or if the specified collection is null.
      * @see    #contains(Object)
@@ -381,7 +423,9 @@ public interface Collection<E> extends Iterable<E> {
      * (This implies that the behavior of this call is undefined if the
      * specified collection is this collection, and this collection is
      * nonempty.)
-     *
+     * 把指定集合中的所有元素加入到此集合中（可选操作）
+     * 如果在操作过程中指定集合被修改则此操作具有不确定性
+     * （暗含了如果自己加自己，且自己不为空的话，后果是不确定的）（ps：谁干这事）
      * @param c collection containing elements to be added to this collection
      * @return <tt>true</tt> if this collection changed as a result of the call
      * @throws UnsupportedOperationException if the <tt>addAll</tt> operation
@@ -405,19 +449,23 @@ public interface Collection<E> extends Iterable<E> {
      * specified collection (optional operation).  After this call returns,
      * this collection will contain no elements in common with the specified
      * collection.
-     *
+     * 把集合中所有和指定集合相同的值删除
+     * （ps：举个例子[1,1,1,2] removeAll([1,2,3])后为[]）
      * @param c collection containing elements to be removed from this collection
      * @return <tt>true</tt> if this collection changed as a result of the
      *         call
+     *         变化了返回true
      * @throws UnsupportedOperationException if the <tt>removeAll</tt> method
      *         is not supported by this collection
      * @throws ClassCastException if the types of one or more elements
      *         in this collection are incompatible with the specified
      *         collection
+     *         ps：注意两者关系和之前的相反
      *         (<a href="#optional-restrictions">optional</a>)
      * @throws NullPointerException if this collection contains one or more
      *         null elements and the specified collection does not support
      *         null elements
+     *         ps：注意两者关系和之前的相反
      *         (<a href="#optional-restrictions">optional</a>),
      *         or if the specified collection is null
      * @see #remove(Object)
@@ -429,6 +477,8 @@ public interface Collection<E> extends Iterable<E> {
      * Removes all of the elements of this collection that satisfy the given
      * predicate.  Errors or runtime exceptions thrown during iteration or by
      * the predicate are relayed to the caller.
+     * 把所有符合给定条件的元素删除
+     * 在迭代或在条件中产生的错误和异常被传给调用者
      *
      * @implSpec
      * The default implementation traverses all elements of the collection using
@@ -436,15 +486,19 @@ public interface Collection<E> extends Iterable<E> {
      * {@link Iterator#remove()}.  If the collection's iterator does not
      * support removal then an {@code UnsupportedOperationException} will be
      * thrown on the first matching element.
-     *
+     * 默认实现是使用iterator遍历所有元素，每个符合的元素都会使用remove方法删除，
+     * 如果集合的迭代器不支持removal，那么UnsupportedOperationException会在匹配第一个元素时抛出
      * @param filter a predicate which returns {@code true} for elements to be
      *        removed
      * @return {@code true} if any elements were removed
+     *         任意元素被异常时返回true
      * @throws NullPointerException if the specified filter is null
+     *         指定filter为null时抛出
      * @throws UnsupportedOperationException if elements cannot be removed
      *         from this collection.  Implementations may throw this exception if a
      *         matching element cannot be removed or if, in general, removal is not
      *         supported.
+     *         removal操作不被支持或元素无法被移除时抛出
      * @since 1.8
      */
     default boolean removeIf(Predicate<? super E> filter) {
@@ -465,7 +519,8 @@ public interface Collection<E> extends Iterable<E> {
      * specified collection (optional operation).  In other words, removes from
      * this collection all of its elements that are not contained in the
      * specified collection.
-     *
+     * 把集合中所有不存在于指定集合的值删除
+     * （ps：[1,1,3]retainAll([1,2])后，变成[1,1]）
      * @param c collection containing elements to be retained in this collection
      * @return <tt>true</tt> if this collection changed as a result of the call
      * @throws UnsupportedOperationException if the <tt>retainAll</tt> operation
@@ -473,10 +528,12 @@ public interface Collection<E> extends Iterable<E> {
      * @throws ClassCastException if the types of one or more elements
      *         in this collection are incompatible with the specified
      *         collection
+     *         ps：注意两者关系和之前的相反
      *         (<a href="#optional-restrictions">optional</a>)
      * @throws NullPointerException if this collection contains one or more
      *         null elements and the specified collection does not permit null
      *         elements
+     *         ps：注意两者关系和之前的相反
      *         (<a href="#optional-restrictions">optional</a>),
      *         or if the specified collection is null
      * @see #remove(Object)
@@ -494,7 +551,7 @@ public interface Collection<E> extends Iterable<E> {
     void clear();
 
 
-    // Comparison and hashing
+    // Comparison and hashing 比较和哈希
 
     /**
      * Compares the specified object with this collection for equality. <p>
